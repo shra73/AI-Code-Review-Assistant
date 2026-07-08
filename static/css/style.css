@@ -1,0 +1,65 @@
+/* Remove default spacing */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* Whole Page */
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:#0F172A;
+
+    color:white;
+
+}
+
+/* Navigation */
+
+.navbar{
+
+    display:flex;
+
+    justify-content: space-between;
+}
+
+/* Logo */
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+    white-space: nowrap;
+}
+/* Menu */
+
+.nav-links{
+
+    display:flex;
+
+    list-style:none;
+
+    gap:30px;
+
+}
+
+/* Links */
+
+.nav-links a{
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+}
+
+/* Hover */
+
+.nav-links a:hover{
+
+    color:#38BDF8;
+
+}
