@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -9,7 +9,7 @@ import os
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "your_secret_key_here"
+app.config["SECRET_KEY"] = "recall_ai_super_secret_key_2026"
 
 # ==========================================
 # Database Configuration
@@ -63,10 +63,30 @@ def home():
 # Login Page
 # ==========================================
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
 
+    if request.method == "POST":
+
+        email = request.form["email"]
+        password = request.form["password"]
+
+        # Search for the user
+        user = User.query.filter_by(email=email).first()
+
+        if user:
+            print("✅ User Found")
+            print("Username:", user.username)
+            print("Email:", user.email)
+
+            return "User found in database!"
+
+        else:
+            print("❌ User Not Found")
+
+            return "Invalid Email"
+
+    return render_template("login.html")
 # ==========================================
 # Register Page
 # ==========================================
@@ -118,6 +138,20 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
+# ==========================================
+# Dashboard Page
+
+@app.route("/dashboard")
+def dashboard():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    return render_template(
+        "dashboard.html",
+        username=session["username"]
+    )
 
 # ==========================================
 # Create Database
