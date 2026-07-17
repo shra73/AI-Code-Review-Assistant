@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PyAudit AI | High-Precision Python Analysis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#c0c6db",
+                    "inverse-primary": "#732ee4",
+                    "surface-container": "#221e28",
+                    "inverse-on-surface": "#332f39",
+                    "surface-bright": "#3c3742",
+                    "surface": "#15121b",
+                    "surface-tint": "#d2bbff",
+                    "primary-fixed-dim": "#d2bbff",
+                    "surface-container-high": "#2c2833",
+                    "on-surface": "#e8dfee",
+                    "background": "#15121b",
+                    "surface-dim": "#15121b",
+                    "on-tertiary-fixed-variant": "#404758",
+                    "inverse-surface": "#e8dfee",
+                    "on-primary": "#3f008e",
+                    "surface-container-lowest": "#100d16",
+                    "on-error": "#690005",
+                    "tertiary-container": "#5f6678",
+                    "primary-container": "#7c3aed",
+                    "outline": "#958da1",
+                    "on-tertiary": "#293040",
+                    "on-background": "#e8dfee",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#c0c6db",
+                    "secondary-fixed": "#d8e2ff",
+                    "secondary-container": "#0566d9",
+                    "primary": "#d2bbff",
+                    "surface-container-low": "#1d1a24",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#141b2b",
+                    "secondary": "#adc6ff",
+                    "on-secondary-container": "#e6ecff",
+                    "error": "#ffb4ab",
+                    "surface-container-highest": "#37333e",
+                    "primary-fixed": "#eaddff",
+                    "on-secondary": "#002e6a",
+                    "on-primary-fixed": "#25005a",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "on-secondary-fixed": "#001a42",
+                    "surface-variant": "#37333e",
+                    "outline-variant": "#4a4455",
+                    "tertiary-fixed": "#dce2f7",
+                    "on-tertiary-container": "#dfe5fa",
+                    "on-primary-container": "#ede0ff",
+                    "on-surface-variant": "#ccc3d8",
+                    "on-secondary-fixed-variant": "#004395",
+                    "on-primary-fixed-variant": "#5a00c6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "card-padding": "24px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "code-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "code-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #09090B;
+            color: #e8dfee;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+        }
+        .glow-accent {
+            box-shadow: 0px 0px 40px rgba(124, 58, 237, 0.05);
+        }
+        .ai-sidebar-border {
+            border-left: 2px solid #7C3AED;
+        }
+        .diff-added { background-color: rgba(34, 197, 94, 0.1); }
+        .diff-removed { background-color: rgba(239, 68, 68, 0.1); }
+        
+        .timeline-line {
+            background: linear-gradient(90deg, transparent, #7C3AED, transparent);
+            height: 2px;
+        }
+
+        .hero-mesh {
+            background-image: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="dark selection:bg-primary/30">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm border-b border-white/10 flex justify-between items-center px-6 py-3 w-full">
+<div class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">terminal</span>
+            PyAudit AI
+        </div>
+<div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">New Review</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">History</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-white/5 p-2 rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-white/5 p-2 rounded-full transition-all">account_circle</button>
+<button class="bg-primary-container text-on-primary-container px-5 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all">Get Started</button>
+</div>
+</nav>
+<main class="relative pt-32">
+<!-- Hero Background Decor -->
+<div class="absolute inset-0 hero-mesh pointer-events-none -z-10"></div>
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-primary font-label-md text-label-md">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                    Now with GPT-4 Turbo Analysis
+                </div>
+<h1 class="font-display-lg text-display-lg leading-tight tracking-tight">
+                    Review Your Python Code with <span class="text-primary">AI in Seconds</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    PyAudit AI identifies critical vulnerabilities, logic errors, and performance bottlenecks before they hit production. Secure your codebase with surgical precision.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-headline-md text-headline-md flex items-center gap-2 hover:scale-[1.02] transition-all shadow-xl shadow-primary/20">
+                        Get Started <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="border border-white/10 bg-white/5 backdrop-blur-md text-on-surface px-8 py-4 rounded-xl font-headline-md text-headline-md hover:bg-white/10 transition-all">
+                        View Demo
+                    </button>
+</div>
+<div class="flex items-center gap-6 pt-4">
+<div class="flex -space-x-3">
+<img class="w-10 h-10 rounded-full border-2 border-surface" data-alt="A professional studio portrait of a modern software engineer, soft purple lighting, high-end corporate style, dark background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbWMMR_f2tKsKjZ1QsXbHxHKQpkWFKAqhkBU6SRFrygCqjAQ3jUu6e41rA2I_yUCyYiNU_3G_lPZX-KqrBuUqLoj8wb1lKaFDkOyxYP1DH83k72j_tUd98PP2DCWdzBF9CQhjpZlB5GiO6SzJ99TEqLE2fjMH7aXmEwz5wusGe6VIKUTdO3lfBkqJ_X7IFkIgLhthNuX8wxmnwt8gOXhjdmnzhEFgjpGlxI0xIUd40prvl56mVS7wP"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface" data-alt="A focused female software developer in a dark room with a single desk lamp illuminating her face, cinematic tech aesthetic, professional tone." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1JHFr5tCZ1P6chEO8duSfsmXqMC9xUkmIU8RB-r8g-NmnjsPGZnG6JVpNct8_j9u7G8k2W_hEi4j3-si7YKEMbABq2wC_JMbb8AdO26ipEjdXIt5p3vcrZCF2GH6b18gBMHA_KqQ_UjsriLxzuK1hZ6TNY6-DDUyVUh5fvl6VgXOMVVOwojrbYt8v0WOaesRie-5mKGp4Y5fiX1xxGHb_qYySJDMzrngSQg4E76e8_0naTBSbeW39"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface" data-alt="Close up portrait of a senior cloud architect, minimalist tech style, ambient purple and blue lighting on dark background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy59kllrMB9L59cycsmmLIE9CLFQI1uG-wfJkxl_rCCgAR0-Vy46jSUb1dZ2QmenFEYEL5GPyAZ8-fvDc4u3LMu3c64IVnQq7yBzBKZMAbdV8taWClAVztQRyAqo0SXtJ-qwAuVnaQZNP5EE_AAuhuZZ_Mcva7fXXJNOkMRytpH_BcoG22_nQAColmtIqHotYQveIJrzbhKOKB688JuKb9PkDNe_XfTVv7NZ2_VR91brTju5yjMGSc"/>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant">Trusted by 2,000+ Python developers</p>
+</div>
+</div>
+<!-- Dashboard Mockup -->
+<div class="relative animate-float">
+<div class="glass-card glow-accent p-6 overflow-hidden min-h-[500px]">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+</div>
+<div class="text-on-surface-variant font-code-sm text-code-sm">analysis_results.py</div>
+</div>
+<div class="space-y-6">
+<!-- Code Card -->
+<div class="glass-card bg-surface-container/50 border-white/5 p-4">
+<div class="font-code-sm text-code-sm space-y-1">
+<div class="diff-removed px-2">- def calculate_risk(data):</div>
+<div class="diff-added px-2">+ def calculate_risk(data: dict) -&gt; float:</div>
+<div class="px-2">    risk = 0</div>
+<div class="diff-removed px-2">-   for i in data: risk += i</div>
+<div class="diff-added px-2">+   for val in data.values():</div>
+<div class="diff-added px-2">+       risk += val * 1.5</div>
+</div>
+</div>
+<!-- AI Suggestion Card -->
+<div class="glass-card ai-sidebar-border p-4 bg-primary/5">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div>
+<h4 class="font-label-md text-label-md text-primary mb-1">AI Suggestion: Type Safety</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Detected missing type hints. Added type annotations to improve IDE support and runtime stability.</p>
+</div>
+</div>
+</div>
+<!-- Mini Stats -->
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card p-4 border-white/5 flex items-center justify-between">
+<div>
+<p class="text-[12px] text-on-surface-variant uppercase tracking-wider">Health Score</p>
+<p class="font-headline-md text-headline-md text-primary">94%</p>
+</div>
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<div class="glass-card p-4 border-white/5 flex items-center justify-between">
+<div>
+<p class="text-[12px] text-on-surface-variant uppercase tracking-wider">Vulnerabilities</p>
+<p class="font-headline-md text-headline-md text-error">02</p>
+</div>
+<span class="material-symbols-outlined text-error">security</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="max-w-7xl mx-auto px-6 py-32">
+<div class="text-center mb-16 space-y-4">
+<h2 class="font-headline-lg text-headline-lg">Powerful Analysis for Modern Python</h2>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-2xl mx-auto">Engineered to handle complex asynchronous code, legacy monoliths, and distributed microservices.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- AI Review -->
+<div class="glass-card p-lg hover:bg-white/10 transition-all group">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">psychology</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">AI Review</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Deep context-aware code reviews that understand logic, not just syntax patterns.</p>
+</div>
+<!-- Bug Detection -->
+<div class="glass-card p-lg hover:bg-white/10 transition-all group">
+<div class="w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center mb-6 text-error group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">bug_report</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Bug Detection</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Identify race conditions, null pointers, and edge case failures before they crash.</p>
+</div>
+<!-- Security -->
+<div class="glass-card p-lg hover:bg-white/10 transition-all group">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6 text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">security</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Security</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">OWASP Top 10 scanning for Python-specific vulnerabilities like SQL injection.</p>
+</div>
+<!-- Performance -->
+<div class="glass-card p-lg hover:bg-white/10 transition-all group">
+<div class="w-12 h-12 rounded-xl bg-tertiary/10 flex items-center justify-center mb-6 text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">speed</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Performance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Optimize database queries and memory usage with automated profiling hints.</p>
+</div>
+<!-- GitHub Integration -->
+<div class="glass-card p-lg hover:bg-white/10 transition-all group">
+<div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-6 text-on-surface group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">hub</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">GitHub Integration</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Native PR integration. Post reviews directly as comments on your pull requests.</p>
+</div>
+<!-- History -->
+<div class="glass-card p-lg hover:bg-white/10 transition-all group">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">history</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">History</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Track code health trends over time with visual analytics and comparative reports.</p>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="max-w-7xl mx-auto px-6 py-32 bg-surface-container-low/30 rounded-[3rem] border border-white/5">
+<div class="text-center mb-24">
+<h2 class="font-headline-lg text-headline-lg mb-4">How it works</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">From raw code to high-fidelity reports in four simple steps.</p>
+</div>
+<div class="relative px-12">
+<!-- Timeline Line -->
+<div class="absolute top-1/2 left-0 w-full timeline-line hidden lg:block -translate-y-1/2"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
+<!-- Step 1 -->
+<div class="text-center space-y-6">
+<div class="w-16 h-16 rounded-full glass-card bg-surface flex items-center justify-center mx-auto border-primary text-primary font-bold text-xl relative">
+                            01
+                            <div class="absolute inset-0 rounded-full border border-primary animate-pulse"></div>
+</div>
+<div class="space-y-2">
+<h4 class="font-headline-md text-headline-md">Upload Code</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Connect your GitHub repo or drag-and-drop source files directly.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="text-center space-y-6">
+<div class="w-16 h-16 rounded-full glass-card bg-surface flex items-center justify-center mx-auto border-white/10 text-on-surface font-bold text-xl">
+                            02
+                        </div>
+<div class="space-y-2">
+<h4 class="font-headline-md text-headline-md">AI Scans</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Our LLM-powered engine parses logic and executes virtual code paths.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="text-center space-y-6">
+<div class="w-16 h-16 rounded-full glass-card bg-surface flex items-center justify-center mx-auto border-white/10 text-on-surface font-bold text-xl">
+                            03
+                        </div>
+<div class="space-y-2">
+<h4 class="font-headline-md text-headline-md">Review Suggestions</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Browse through prioritized fixes with detailed explanations and diffs.</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="text-center space-y-6">
+<div class="w-16 h-16 rounded-full glass-card bg-surface flex items-center justify-center mx-auto border-white/10 text-on-surface font-bold text-xl">
+                            04
+                        </div>
+<div class="space-y-2">
+<h4 class="font-headline-md text-headline-md">Apply &amp; Ship</h4>
+<p class="font-label-md text-label-md text-on-surface-variant">Auto-apply suggested fixes or export to your favorite ticketing system.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-7xl mx-auto px-6 py-32 text-center relative overflow-hidden">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/20 blur-[120px] rounded-full -z-10"></div>
+<div class="glass-card p-xl border-primary/20 space-y-8">
+<h2 class="font-display-lg text-display-lg">Ready to audit your code?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    Join thousands of developers using PyAudit AI to maintain the highest code standards. Free trial includes 10 full repo scans.
+                </p>
+<div class="flex justify-center gap-6">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-headline-md text-headline-md hover:scale-105 transition-all">Start Free Trial</button>
+<button class="border border-white/10 px-10 py-4 rounded-xl font-headline-md text-headline-md hover:bg-white/5 transition-all">Talk to Sales</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-8 mt-auto border-t border-outline-variant">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col gap-2">
+<div class="font-headline-md text-headline-md text-on-surface font-bold">PyAudit AI</div>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-80">© 2024 PyAudit AI. High-precision Python analysis.</p>
+</div>
+<div class="flex gap-8 font-label-md text-label-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">API Docs</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Community</a>
+</div>
+<div class="flex items-center gap-4">
+<a class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" href="#">language</a>
+<a class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors" href="#">share</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and parallax effect on the dashboard mockup
+        document.addEventListener('mousemove', (e) => {
+            const mockup = document.querySelector('.animate-float');
+            if (!mockup) return;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            mockup.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+    </script>
+</body></html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Review History | PyAudit AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#c0c6db",
+                    "inverse-primary": "#732ee4",
+                    "surface-container": "#221e28",
+                    "inverse-on-surface": "#332f39",
+                    "surface-bright": "#3c3742",
+                    "surface": "#15121b",
+                    "surface-tint": "#d2bbff",
+                    "primary-fixed-dim": "#d2bbff",
+                    "surface-container-high": "#2c2833",
+                    "on-surface": "#e8dfee",
+                    "background": "#15121b",
+                    "surface-dim": "#15121b",
+                    "on-tertiary-fixed-variant": "#404758",
+                    "inverse-surface": "#e8dfee",
+                    "on-primary": "#3f008e",
+                    "surface-container-lowest": "#100d16",
+                    "on-error": "#690005",
+                    "tertiary-container": "#5f6678",
+                    "primary-container": "#7c3aed",
+                    "outline": "#958da1",
+                    "on-tertiary": "#293040",
+                    "on-background": "#e8dfee",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#c0c6db",
+                    "secondary-fixed": "#d8e2ff",
+                    "secondary-container": "#0566d9",
+                    "primary": "#d2bbff",
+                    "surface-container-low": "#1d1a24",
+                    "on-error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#141b2b",
+                    "secondary": "#adc6ff",
+                    "on-secondary-container": "#e6ecff",
+                    "error": "#ffb4ab",
+                    "surface-container-highest": "#37333e",
+                    "primary-fixed": "#eaddff",
+                    "on-secondary": "#002e6a",
+                    "on-primary-fixed": "#25005a",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "on-secondary-fixed": "#001a42",
+                    "surface-variant": "#37333e",
+                    "outline-variant": "#4a4455",
+                    "tertiary-fixed": "#dce2f7",
+                    "on-tertiary-container": "#dfe5fa",
+                    "on-primary-container": "#ede0ff",
+                    "on-surface-variant": "#ccc3d8",
+                    "on-secondary-fixed-variant": "#004395",
+                    "on-primary-fixed-variant": "#5a00c6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "card-padding": "24px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "code-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "code-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #09090b;
+            color: #e8dfee;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0px 0px 40px rgba(124, 58, 237, 0.05);
+        }
+
+        .severity-glow-high {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface-container/80 backdrop-blur-[18px] border-b border-white/10 shadow-sm">
+<div class="flex justify-between items-center px-lg py-md max-w-container-max mx-auto h-[64px]">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">PyAudit AI</span>
+</div>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">New Review</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">History</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="hidden md:block bg-primary-container text-on-primary-container px-md py-xs rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all">
+                    Upgrade Pro
+                </button>
+<button class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center border border-white/10 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional user profile avatar for a software developer, clean lines, minimalist aesthetic, using a deep purple and midnight black color palette to match the PyAudit brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMtfrZBBrsc88Yw4EgZ9s_rUJSqLVjh4kdZm7v_1xMvuFNe_kx9i5-dE3GuHYi9bXcW-qoOsDlAO8iMGj6vusqSKnG-CX-KK95YfU1Z2stHuzrcxmXE3VlOFE9t8Ha_X5Ln5FXUfRTQwvHGlVAL4zo8zdxyNdf4MVLspkoVYseQBrNF3qT5TSQdx0eTBFyG87VzP5ADWTH2gcuqXKlJPKaHBtryrOOvKWocjtOT5nS33uJ8YxdpQdD"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Sidebar -->
+<aside class="h-screen w-[280px] fixed left-0 top-0 pt-[64px] bg-surface-container-low border-r border-white/5 flex flex-col hidden md:flex">
+<div class="p-lg flex items-center gap-md mb-md">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary">terminal</span>
+</div>
+<div>
+<h3 class="text-on-surface font-bold font-label-md text-label-md">Project Alpha</h3>
+<p class="text-on-surface-variant text-[11px] opacity-60">Python 3.11 • Main Branch</p>
+</div>
+</div>
+<nav class="flex flex-col space-y-1 px-md flex-grow">
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 rounded-xl hover:bg-white/5 hover:text-on-surface transition-all duration-300" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 rounded-xl hover:bg-white/5 hover:text-on-surface transition-all duration-300" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-md text-label-md">All Projects</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 rounded-xl hover:bg-white/5 hover:text-on-surface transition-all duration-300" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-md text-label-md">AI Insights</span>
+</a>
+<a class="flex items-center gap-md bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-label-md text-label-md">Security Scans</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 rounded-xl hover:bg-white/5 hover:text-on-surface transition-all duration-300" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">Team Access</span>
+</a>
+</nav>
+<div class="p-lg mt-auto border-t border-white/5 space-y-md">
+<a class="flex items-center gap-md text-on-surface-variant text-[13px] hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">description</span>
+                Documentation
+            </a>
+<a class="flex items-center gap-md text-on-surface-variant text-[13px] hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                Support
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-[280px] pt-[64px] h-screen overflow-y-auto custom-scrollbar bg-background">
+<div class="max-w-[1200px] mx-auto p-lg lg:p-xl">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Review History</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">Manage and audit your previous AI-powered code analysis sessions.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/60 text-[20px]">search</span>
+<input class="bg-surface-container-low border border-white/10 rounded-xl pl-10 pr-md py-2 text-sm focus:outline-none focus:border-primary/50 transition-all w-full md:w-64" placeholder="Filter files..." type="text"/>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary font-label-md text-label-md px-md py-2 rounded-lg flex items-center gap-xs active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Run New Audit
+                    </button>
+</div>
+</div>
+<!-- Bento-style Statistics Row (Optional but Premium) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
+<div class="glass-card p-lg rounded-xl flex items-center gap-lg">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Total Reviews</p>
+<h4 class="text-on-surface font-headline-md text-headline-md">128</h4>
+</div>
+</div>
+<div class="glass-card p-lg rounded-xl flex items-center gap-lg">
+<div class="w-12 h-12 rounded-lg bg-error-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-error">gpp_maybe</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Critical Flags</p>
+<h4 class="text-on-surface font-headline-md text-headline-md">14</h4>
+</div>
+</div>
+<div class="glass-card p-lg rounded-xl flex items-center gap-lg">
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">speed</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-label-md font-label-md">Avg. Score</p>
+<h4 class="text-on-surface font-headline-md text-headline-md">92%</h4>
+</div>
+</div>
+</div>
+<!-- Review Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg pb-xl">
+<!-- Card 1 -->
+<div class="glass-card rounded-xl p-card-padding relative overflow-hidden flex flex-col h-full border-l-[3px] border-l-primary">
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary/80">description</span>
+<span class="font-code-sm text-code-sm text-on-surface truncate max-w-[150px]">auth_service.py</span>
+</div>
+<div class="bg-surface-container-highest px-2 py-0.5 rounded text-[11px] font-bold text-on-tertiary-container tracking-wider">
+                            v2.4.1
+                        </div>
+</div>
+<div class="flex items-center justify-between mb-lg">
+<div>
+<span class="text-[32px] font-bold text-on-surface">94</span>
+<span class="text-on-surface-variant text-sm">/100</span>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Health Score</p>
+</div>
+<div class="text-right">
+<span class="bg-secondary-container/30 text-on-secondary-container text-[11px] px-2 py-1 rounded-full font-bold">PERFORMANCE</span>
+<p class="text-on-surface-variant text-[11px] mt-1">Oct 24, 2023</p>
+</div>
+</div>
+<div class="mt-auto flex items-center gap-sm pt-md border-t border-white/5">
+<button class="flex-grow bg-white/5 hover:bg-primary/10 hover:text-primary text-on-surface font-label-md text-label-md py-2 rounded-lg transition-all flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                            Open Report
+                        </button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Card 2 (Security) -->
+<div class="glass-card rounded-xl p-card-padding relative overflow-hidden flex flex-col h-full border-l-[3px] border-l-error">
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error/80">security</span>
+<span class="font-code-sm text-code-sm text-on-surface truncate max-w-[150px]">database_utils.py</span>
+</div>
+<div class="bg-error/20 px-2 py-0.5 rounded text-[11px] font-bold text-error tracking-wider">
+                            CRITICAL
+                        </div>
+</div>
+<div class="flex items-center justify-between mb-lg">
+<div>
+<span class="text-[32px] font-bold text-error">68</span>
+<span class="text-on-surface-variant text-sm">/100</span>
+<p class="text-[10px] uppercase tracking-widest text-error font-bold">Health Score</p>
+</div>
+<div class="text-right">
+<span class="bg-error-container/30 text-on-error-container text-[11px] px-2 py-1 rounded-full font-bold">SECURITY</span>
+<p class="text-on-surface-variant text-[11px] mt-1">Oct 22, 2023</p>
+</div>
+</div>
+<div class="mt-auto flex items-center gap-sm pt-md border-t border-white/5">
+<button class="flex-grow bg-white/5 hover:bg-error/10 hover:text-error text-on-surface font-label-md text-label-md py-2 rounded-lg transition-all flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+                            View Risks
+                        </button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card rounded-xl p-card-padding relative overflow-hidden flex flex-col h-full border-l-[3px] border-l-primary">
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary/80">description</span>
+<span class="font-code-sm text-code-sm text-on-surface truncate max-w-[150px]">middleware.py</span>
+</div>
+</div>
+<div class="flex items-center justify-between mb-lg">
+<div>
+<span class="text-[32px] font-bold text-on-surface">88</span>
+<span class="text-on-surface-variant text-sm">/100</span>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Health Score</p>
+</div>
+<div class="text-right">
+<span class="bg-secondary-container/30 text-on-secondary-container text-[11px] px-2 py-1 rounded-full font-bold">PERFORMANCE</span>
+<p class="text-on-surface-variant text-[11px] mt-1">Oct 21, 2023</p>
+</div>
+</div>
+<div class="mt-auto flex items-center gap-sm pt-md border-t border-white/5">
+<button class="flex-grow bg-white/5 hover:bg-primary/10 hover:text-primary text-on-surface font-label-md text-label-md py-2 rounded-lg transition-all flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                            Open Report
+                        </button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-card rounded-xl p-card-padding relative overflow-hidden flex flex-col h-full border-l-[3px] border-l-primary">
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary/80">description</span>
+<span class="font-code-sm text-code-sm text-on-surface truncate max-w-[150px]">api_v1_endpoints.py</span>
+</div>
+</div>
+<div class="flex items-center justify-between mb-lg">
+<div>
+<span class="text-[32px] font-bold text-on-surface">91</span>
+<span class="text-on-surface-variant text-sm">/100</span>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Health Score</p>
+</div>
+<div class="text-right">
+<span class="bg-secondary-container/30 text-on-secondary-container text-[11px] px-2 py-1 rounded-full font-bold">PERFORMANCE</span>
+<p class="text-on-surface-variant text-[11px] mt-1">Oct 19, 2023</p>
+</div>
+</div>
+<div class="mt-auto flex items-center gap-sm pt-md border-t border-white/5">
+<button class="flex-grow bg-white/5 hover:bg-primary/10 hover:text-primary text-on-surface font-label-md text-label-md py-2 rounded-lg transition-all flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                            Open Report
+                        </button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Card 5 (Security) -->
+<div class="glass-card rounded-xl p-card-padding relative overflow-hidden flex flex-col h-full border-l-[3px] border-l-error">
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error/80">security</span>
+<span class="font-code-sm text-code-sm text-on-surface truncate max-w-[150px]">secrets_handler.py</span>
+</div>
+</div>
+<div class="flex items-center justify-between mb-lg">
+<div>
+<span class="text-[32px] font-bold text-on-surface">82</span>
+<span class="text-on-surface-variant text-sm">/100</span>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Health Score</p>
+</div>
+<div class="text-right">
+<span class="bg-error-container/30 text-on-error-container text-[11px] px-2 py-1 rounded-full font-bold">SECURITY</span>
+<p class="text-on-surface-variant text-[11px] mt-1">Oct 18, 2023</p>
+</div>
+</div>
+<div class="mt-auto flex items-center gap-sm pt-md border-t border-white/5">
+<button class="flex-grow bg-white/5 hover:bg-primary/10 hover:text-primary text-on-surface font-label-md text-label-md py-2 rounded-lg transition-all flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                            Open Report
+                        </button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="glass-card rounded-xl p-card-padding relative overflow-hidden flex flex-col h-full border-l-[3px] border-l-primary">
+<div class="flex justify-between items-start mb-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary/80">description</span>
+<span class="font-code-sm text-code-sm text-on-surface truncate max-w-[150px]">logger_init.py</span>
+</div>
+</div>
+<div class="flex items-center justify-between mb-lg">
+<div>
+<span class="text-[32px] font-bold text-on-surface">98</span>
+<span class="text-on-surface-variant text-sm">/100</span>
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold">Health Score</p>
+</div>
+<div class="text-right">
+<span class="bg-secondary-container/30 text-on-secondary-container text-[11px] px-2 py-1 rounded-full font-bold">PERFORMANCE</span>
+<p class="text-on-surface-variant text-[11px] mt-1">Oct 15, 2023</p>
+</div>
+</div>
+<div class="mt-auto flex items-center gap-sm pt-md border-t border-white/5">
+<button class="flex-grow bg-white/5 hover:bg-primary/10 hover:text-primary text-on-surface font-label-md text-label-md py-2 rounded-lg transition-all flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+                            Open Report
+                        </button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-all" title="Delete">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer area for history -->
+<footer class="w-full py-xl mt-auto border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center px-lg max-w-container-max mx-auto gap-md">
+<div class="text-tertiary font-label-md text-label-md">
+                        © 2024 PyAudit AI. Precise Code Intelligence.
+                    </div>
+<div class="flex items-center gap-lg">
+<a class="text-tertiary font-label-md text-label-md hover:text-primary-fixed-dim transition-colors" href="#">Privacy Policy</a>
+<a class="text-tertiary font-label-md text-label-md hover:text-primary-fixed-dim transition-colors" href="#">Terms of Service</a>
+<a class="text-tertiary font-label-md text-label-md hover:text-primary-fixed-dim transition-colors" href="#">API Docs</a>
+<a class="text-tertiary font-label-md text-label-md hover:text-primary-fixed-dim transition-colors" href="#">GitHub</a>
+</div>
+</div>
+</footer>
+</div>
+</main>
+<!-- Floating Atmosphere Elements -->
+<div class="fixed top-[20%] right-[-100px] w-[500px] h-[500px] bg-primary/5 blur-[120px] pointer-events-none rounded-full z-[-1]"></div>
+<div class="fixed bottom-[10%] left-[-100px] w-[400px] h-[400px] bg-secondary/5 blur-[100px] pointer-events-none rounded-full z-[-1]"></div>
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                // Subtle pulse or hover logic if needed via JS
+            });
+        });
+
+        // Simple filter logic for demonstration
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(term)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>

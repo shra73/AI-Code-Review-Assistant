@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register | PyAudit AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .purple-glow {
+            box-shadow: 0px 0px 40px rgba(124, 58, 237, 0.08);
+        }
+        body {
+            background-color: #09090B;
+        }
+        .gradient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#c0c6db",
+                      "inverse-primary": "#732ee4",
+                      "surface-container": "#221e28",
+                      "inverse-on-surface": "#332f39",
+                      "surface-bright": "#3c3742",
+                      "surface": "#15121b",
+                      "surface-tint": "#d2bbff",
+                      "primary-fixed-dim": "#d2bbff",
+                      "surface-container-high": "#2c2833",
+                      "on-surface": "#e8dfee",
+                      "background": "#15121b",
+                      "surface-dim": "#15121b",
+                      "on-tertiary-fixed-variant": "#404758",
+                      "inverse-surface": "#e8dfee",
+                      "on-primary": "#3f008e",
+                      "surface-container-lowest": "#100d16",
+                      "on-error": "#690005",
+                      "tertiary-container": "#5f6678",
+                      "primary-container": "#7c3aed",
+                      "outline": "#958da1",
+                      "on-tertiary": "#293040",
+                      "on-background": "#e8dfee",
+                      "error-container": "#93000a",
+                      "tertiary-fixed-dim": "#c0c6db",
+                      "secondary-fixed": "#d8e2ff",
+                      "secondary-container": "#0566d9",
+                      "primary": "#d2bbff",
+                      "surface-container-low": "#1d1a24",
+                      "on-error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#141b2b",
+                      "secondary": "#adc6ff",
+                      "on-secondary-container": "#e6ecff",
+                      "error": "#ffb4ab",
+                      "surface-container-highest": "#37333e",
+                      "primary-fixed": "#eaddff",
+                      "on-secondary": "#002e6a",
+                      "on-primary-fixed": "#25005a",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "on-secondary-fixed": "#001a42",
+                      "surface-variant": "#37333e",
+                      "outline-variant": "#4a4455",
+                      "tertiary-fixed": "#dce2f7",
+                      "on-tertiary-container": "#dfe5fa",
+                      "on-primary-container": "#ede0ff",
+                      "on-surface-variant": "#ccc3d8",
+                      "on-secondary-fixed-variant": "#004395",
+                      "on-primary-fixed-variant": "#5a00c6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "card-padding": "24px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "code-sm": ["JetBrains Mono"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "code-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="flex flex-col min-h-screen text-on-surface">
+<div class="gradient-mesh"></div>
+<!-- Navigation Suppressed for Login/Registration flow as per Semantic Shell Mandate -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary font-headline-md text-headline-md" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">PyAudit AI</span>
+</div>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Already have an account? Sign In</a>
+</header>
+<main class="flex-grow flex items-center justify-center px-4 py-20">
+<div class="w-full max-w-md glass-card purple-glow rounded-xl p-card-padding flex flex-col gap-6 relative overflow-hidden">
+<!-- Accent bar for AI/Premium feel -->
+<div class="absolute top-0 left-0 w-1 h-full bg-primary-container"></div>
+<div class="flex flex-col gap-2">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Join the elite</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Create your PyAudit AI account to begin secure high-precision Python analysis.</p>
+</div>
+<form class="flex flex-col gap-4" id="registrationForm">
+<!-- Full Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant px-1" for="name">Full Name</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] group-focus-within:text-primary transition-colors">person</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-on-surface font-body-md placeholder:text-outline-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all duration-200" id="name" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant px-1" for="email">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] group-focus-within:text-primary transition-colors">mail</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-on-surface font-body-md placeholder:text-outline-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all duration-200" id="email" placeholder="dev@pyaudit.ai" type="email"/>
+</div>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant px-1" for="password">Password</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-on-surface font-body-md placeholder:text-outline-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all duration-200" id="password" placeholder="••••••••" type="password"/>
+</div>
+<!-- Password Strength Indicator -->
+<div class="mt-2 flex flex-col gap-2">
+<div class="flex gap-1 h-1">
+<div class="flex-1 bg-surface-container-highest rounded-full transition-colors duration-300" id="strength-1"></div>
+<div class="flex-1 bg-surface-container-highest rounded-full transition-colors duration-300" id="strength-2"></div>
+<div class="flex-1 bg-surface-container-highest rounded-full transition-colors duration-300" id="strength-3"></div>
+<div class="flex-1 bg-surface-container-highest rounded-full transition-colors duration-300" id="strength-4"></div>
+</div>
+<span class="text-[11px] font-label-md uppercase tracking-wider text-on-surface-variant" id="strength-text">Security Level: Minimum</span>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant px-1" for="confirm_password">Confirm Password</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px] group-focus-within:text-primary transition-colors">verified_user</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-on-surface font-body-md placeholder:text-outline-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/20 transition-all duration-200" id="confirm_password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="mt-4 flex flex-col gap-4">
+<button class="w-full py-4 bg-primary-container hover:bg-inverse-primary text-on-primary-container font-label-md text-label-md font-bold rounded-lg transition-all duration-200 shadow-lg shadow-primary-container/10 active:scale-[0.98]" type="submit">
+                        Create Account
+                    </button>
+<div class="flex items-center gap-2">
+<input class="w-4 h-4 rounded border-outline-variant bg-surface-container text-primary-container focus:ring-primary-container" id="terms" type="checkbox"/>
+<label class="text-[12px] font-body-md text-on-surface-variant leading-tight" for="terms">
+                            I agree to the <a class="text-primary hover:underline" href="#">Terms of Service</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+                        </label>
+</div>
+</div>
+</form>
+</div>
+</main>
+<footer class="w-full py-8 mt-auto border-t border-outline-variant bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="font-label-md text-label-md text-on-surface-variant opacity-80">© 2024 PyAudit AI. High-precision Python analysis.</span>
+<div class="flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">API Docs</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Community</a>
+</div>
+</div>
+</footer>
+<script>
+        // Password Strength Logic
+        const passwordInput = document.getElementById('password');
+        const strengthBars = [
+            document.getElementById('strength-1'),
+            document.getElementById('strength-2'),
+            document.getElementById('strength-3'),
+            document.getElementById('strength-4')
+        ];
+        const strengthText = document.getElementById('strength-text');
+
+        passwordInput.addEventListener('input', () => {
+            const val = passwordInput.value;
+            let score = 0;
+
+            if (val.length > 5) score++;
+            if (val.length > 8 && /[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+            if (val.length > 10 && /[^A-Za-z0-9]/.test(val)) score++;
+            if (val.length > 14) score++;
+
+            // Reset
+            strengthBars.forEach(bar => {
+                bar.classList.remove('bg-error', 'bg-tertiary', 'bg-secondary-container', 'bg-primary-container');
+                bar.classList.add('bg-surface-container-highest');
+            });
+
+            // Update
+            if (score >= 1) {
+                strengthBars[0].classList.remove('bg-surface-container-highest');
+                strengthBars[0].classList.add('bg-error');
+                strengthText.innerText = "Security Level: Weak";
+                strengthText.classList.remove('text-on-surface-variant', 'text-primary');
+                strengthText.classList.add('text-error');
+            }
+            if (score >= 2) {
+                strengthBars[0].classList.replace('bg-error', 'bg-tertiary');
+                strengthBars[1].classList.remove('bg-surface-container-highest');
+                strengthBars[1].classList.add('bg-tertiary');
+                strengthText.innerText = "Security Level: Fair";
+                strengthText.classList.replace('text-error', 'text-tertiary');
+            }
+            if (score >= 3) {
+                strengthBars[0].classList.replace('bg-tertiary', 'bg-secondary-container');
+                strengthBars[1].classList.replace('bg-tertiary', 'bg-secondary-container');
+                strengthBars[2].classList.remove('bg-surface-container-highest');
+                strengthBars[2].classList.add('bg-secondary-container');
+                strengthText.innerText = "Security Level: Good";
+                strengthText.classList.replace('text-tertiary', 'text-secondary');
+            }
+            if (score >= 4) {
+                strengthBars[0].classList.replace('bg-secondary-container', 'bg-primary-container');
+                strengthBars[1].classList.replace('bg-secondary-container', 'bg-primary-container');
+                strengthBars[2].classList.replace('bg-secondary-container', 'bg-primary-container');
+                strengthBars[3].classList.remove('bg-surface-container-highest');
+                strengthBars[3].classList.add('bg-primary-container');
+                strengthText.innerText = "Security Level: Fortified";
+                strengthText.classList.replace('text-secondary', 'text-primary');
+            }
+
+            if (val.length === 0) {
+                strengthText.innerText = "Security Level: Minimum";
+                strengthText.classList.remove('text-error', 'text-tertiary', 'text-secondary', 'text-primary');
+                strengthText.classList.add('text-on-surface-variant');
+            }
+        });
+
+        // Form Submit Interaction
+        document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Success';
+                btn.classList.replace('bg-primary-container', 'bg-green-600');
+            }, 1500);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | PyAudit AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#c0c6db",
+                        "inverse-primary": "#732ee4",
+                        "surface-container": "#221e28",
+                        "inverse-on-surface": "#332f39",
+                        "surface-bright": "#3c3742",
+                        "surface": "#15121b",
+                        "surface-tint": "#d2bbff",
+                        "primary-fixed-dim": "#d2bbff",
+                        "surface-container-high": "#2c2833",
+                        "on-surface": "#e8dfee",
+                        "background": "#15121b",
+                        "surface-dim": "#15121b",
+                        "on-tertiary-fixed-variant": "#404758",
+                        "inverse-surface": "#e8dfee",
+                        "on-primary": "#3f008e",
+                        "surface-container-lowest": "#100d16",
+                        "on-error": "#690005",
+                        "tertiary-container": "#5f6678",
+                        "primary-container": "#7c3aed",
+                        "outline": "#958da1",
+                        "on-tertiary": "#293040",
+                        "on-background": "#e8dfee",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#c0c6db",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-container": "#0566d9",
+                        "primary": "#d2bbff",
+                        "surface-container-low": "#1d1a24",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#141b2b",
+                        "secondary": "#adc6ff",
+                        "on-secondary-container": "#e6ecff",
+                        "error": "#ffb4ab",
+                        "surface-container-highest": "#37333e",
+                        "primary-fixed": "#eaddff",
+                        "on-secondary": "#002e6a",
+                        "on-primary-fixed": "#25005a",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary-fixed": "#001a42",
+                        "surface-variant": "#37333e",
+                        "outline-variant": "#4a4455",
+                        "tertiary-fixed": "#dce2f7",
+                        "on-tertiary-container": "#dfe5fa",
+                        "on-primary-container": "#ede0ff",
+                        "on-surface-variant": "#ccc3d8",
+                        "on-secondary-fixed-variant": "#004395",
+                        "on-primary-fixed-variant": "#5a00c6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1440px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "card-padding": "24px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "code-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #15121b;
+            color: #e8dfee;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .sidebar-active {
+            background: rgba(124, 58, 237, 0.2);
+            color: #d2bbff;
+            border-left: 4px solid #7c3aed;
+        }
+        .input-12 {
+            border-radius: 12px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-container/80 backdrop-blur-[18px] border-b border-white/10 shadow-sm">
+<div class="flex justify-between items-center px-lg py-md max-w-container-max mx-auto">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">PyAudit AI</span>
+</div>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">New Review</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">History</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="bg-primary-container text-on-primary-container px-md py-sm rounded-lg font-label-md hover:opacity-90 active:scale-95 transition-all">Upgrade Pro</button>
+<div class="flex gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-[64px]">
+<!-- SideNavBar -->
+<aside class="h-screen w-[280px] fixed left-0 top-0 pt-[64px] bg-surface-container-low border-r border-white/5 flex flex-col space-y-2 hidden lg:flex">
+<div class="px-lg py-lg">
+<div class="flex items-center gap-md mb-xl">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-primary-container flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional minimalist avatar for a software project workspace, featuring clean geometric shapes and a deep purple color scheme that matches a sophisticated developer aesthetic. The image is set against a dark, moody background with subtle lens flare effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv8ml5m0Dx1dhwb-SuYLhd75lthh894XcvYaRpUyzophHqH16ZinjN2ANPptQLZY_rwiWBLm_v0TAOGnjt-Ua7q0McyLeBtg6d94aPTwrqIioHJRwSQ-uI8iqtwx8bR3cwbQCRFf3Jur2lHLYPCjA2TH4y1VqEtHeOUD8EhJ2LNXrelJB21cpFfSzgosZrQv5bC-2JswUKDbP4ZoQlhbNOELOgC6k7otg64IbpyqPPlH9t5qxNuJdG"/>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface font-bold">Project Alpha</h3>
+<p class="text-[12px] text-on-surface-variant">Python 3.11</p>
+</div>
+</div>
+<nav class="flex flex-col space-y-1">
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+<span class="font-label-md">All Projects</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-label-md">AI Insights</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="font-label-md">Security Scans</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md">Team Access</span>
+</a>
+</nav>
+<div class="mt-xl pt-xl border-t border-white/5 flex flex-col space-y-1">
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md">Documentation</span>
+</a>
+<a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md">Support</span>
+</a>
+</div>
+</div>
+<div class="mt-auto p-lg">
+<button class="w-full bg-surface-container-highest text-primary border border-primary/20 py-md rounded-xl font-label-md hover:bg-primary/10 transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="play_circle">play_circle</span>
+                    Run New Audit
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-[280px] px-md md:px-xl py-xl bg-background relative overflow-hidden">
+<!-- Atmospheric Glow Background -->
+
+<div class="max-w-4xl mx-auto relative z-10">
+<header class="mb-xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Settings</h1>
+<p class="text-on-surface-variant font-body-md text-body-md">Manage your account preferences, security, and developer configurations.</p>
+</header>
+<!-- Settings Navigation (Tabs) -->
+<div class="flex overflow-x-auto gap-md mb-lg pb-2 scrollbar-hide no-scrollbar">
+<button class="tab-btn px-md py-sm rounded-full glass-card border border-primary/40 text-primary font-label-md whitespace-nowrap active" id="btn-profile" onclick="switchTab('profile')">Profile</button>
+<button class="tab-btn px-md py-sm rounded-full glass-card border border-white/5 text-on-surface-variant hover:text-primary font-label-md whitespace-nowrap" id="btn-account" onclick="switchTab('account')">Account</button>
+<button class="tab-btn px-md py-sm rounded-full glass-card border border-white/5 text-on-surface-variant hover:text-primary font-label-md whitespace-nowrap" id="btn-api" onclick="switchTab('api')">API Key</button>
+<button class="tab-btn px-md py-sm rounded-full glass-card border border-white/5 text-on-surface-variant hover:text-primary font-label-md whitespace-nowrap" id="btn-theme" onclick="switchTab('theme')">Theme</button>
+<button class="tab-btn px-md py-sm rounded-full glass-card border border-white/5 text-on-surface-variant hover:text-primary font-label-md whitespace-nowrap" id="btn-notifications" onclick="switchTab('notifications')">Notifications</button>
+<button class="tab-btn px-md py-sm rounded-full glass-card border border-white/5 text-on-surface-variant hover:text-primary font-label-md whitespace-nowrap" id="btn-security" onclick="switchTab('security')">Security</button>
+</div>
+<!-- Bento-style Settings Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg" id="settings-canvas">
+<!-- Profile Section -->
+<div class="md:col-span-8 flex flex-col gap-lg">
+<section class="glass-card rounded-xl p-card-padding">
+<h2 class="font-headline-md text-headline-md mb-lg">Public Profile</h2>
+<form class="space-y-lg">
+<div class="flex flex-col md:flex-row gap-lg">
+<div class="flex-1 space-y-sm">
+<label class="font-label-md text-on-surface-variant">Full Name</label>
+<input class="w-full bg-surface-container-lowest border border-white/10 input-12 px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Alex Devlin"/>
+</div>
+<div class="flex-1 space-y-sm">
+<label class="font-label-md text-on-surface-variant">Username</label>
+<input class="w-full bg-surface-container-lowest border border-white/10 input-12 px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="alex_coder_99"/>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface-variant">Bio</label>
+<textarea class="w-full bg-surface-container-lowest border border-white/10 input-12 px-md py-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" rows="4">Senior Python Developer specializing in high-performance microservices and AI-driven code optimization.</textarea>
+</div>
+<div class="flex justify-end">
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md hover:opacity-90 transition-all" type="button">Save Changes</button>
+</div>
+</form>
+</section>
+<section class="glass-card rounded-xl p-card-padding relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<h2 class="font-headline-md text-headline-md mb-md">API Access Tokens</h2>
+<p class="text-on-surface-variant text-body-md mb-lg">Generate personal access tokens to interact with the PyAudit AI CLI and API.</p>
+<div class="bg-surface-container-lowest border border-white/10 input-12 p-md flex items-center justify-between">
+<code class="font-code-sm text-primary">pa_live_**********************f92b</code>
+<div class="flex gap-sm">
+<button class="p-sm hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="content_copy">content_copy</span>
+</button>
+<button class="p-sm hover:bg-white/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="refresh">refresh</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar Info / Danger Zone -->
+<div class="md:col-span-4 flex flex-col gap-lg">
+<section class="glass-card rounded-xl p-card-padding text-center">
+<div class="w-24 h-24 mx-auto rounded-full border-4 border-primary/20 p-1 mb-md">
+<img class="w-full h-full rounded-full object-cover" data-alt="A close-up portrait of a professional developer in a dark environment. The lighting is cold with blue and violet hues reflecting off modern eyewear. High-detail digital photography style, cinematic lighting, shallow depth of field, 8k resolution, tech-noir aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUi8ILdP4iNbhyj0tzasgrN8LFoZaFjrldp5EjaXYaVNUE4wtjjYnMWHCQju_yyLHxr84kQaknsW5nWXFVqX6flXU6pPFj5czkTKF4k7fRABKy9owegj1J69dDVVReKLvEvhT1xDj6qjP3tRHV-1sr_9E5i-bmDsmp-5MYEQ5G98Wm4WLunw6yrkjU168aISsMxP6f358NOG9TVwwhen0EUdhYeesHkQ10h0XlR9Y7JWEcPP-uXQzD"/>
+</div>
+<h3 class="font-label-md text-on-surface text-lg">Alex Devlin</h3>
+<p class="text-on-surface-variant text-sm mb-lg">Pro Member since Oct 2023</p>
+<button class="w-full py-sm rounded-lg border border-white/10 hover:bg-white/5 transition-all text-sm">Change Photo</button>
+</section>
+<section class="glass-card rounded-xl p-card-padding">
+<h3 class="font-label-md text-on-surface mb-md">Theme Preferences</h3>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex flex-col items-center gap-xs p-sm bg-primary-container/20 border border-primary/40 rounded-lg">
+<span class="material-symbols-outlined" data-icon="dark_mode" style="font-variation-settings: 'FILL' 1;">dark_mode</span>
+<span class="text-[12px]">Midnight</span>
+</button>
+<button class="flex flex-col items-center gap-xs p-sm hover:bg-white/5 border border-white/5 rounded-lg transition-all">
+<span class="material-symbols-outlined" data-icon="light_mode">light_mode</span>
+<span class="text-[12px]">Morning</span>
+</button>
+</div>
+</section>
+<section class="glass-card rounded-xl p-card-padding border-error/20">
+<h3 class="font-label-md text-error mb-sm">Danger Zone</h3>
+<p class="text-[12px] text-on-surface-variant mb-lg">Once you delete your account, there is no going back. Please be certain.</p>
+<button class="w-full py-sm rounded-lg bg-error-container text-on-error-container font-label-md hover:bg-red-600 transition-all active:scale-95">Delete Account</button>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-xl bg-surface-container-lowest border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center px-lg max-w-container-max mx-auto gap-md">
+<span class="font-label-md text-label-md text-tertiary">© 2024 PyAudit AI. Precise Code Intelligence.</span>
+<div class="flex gap-lg">
+<a class="font-label-md text-label-md text-tertiary hover:text-primary-fixed-dim transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-tertiary hover:text-primary-fixed-dim transition-colors" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-tertiary hover:text-primary-fixed-dim transition-colors" href="#">API Docs</a>
+<a class="font-label-md text-label-md text-tertiary hover:text-primary-fixed-dim transition-colors" href="#">GitHub</a>
+</div>
+</div>
+</footer>
+<script>
+        function switchTab(tabName) {
+            // Update UI buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-primary/40', 'text-primary');
+                btn.classList.add('border-white/5', 'text-on-surface-variant');
+            });
+            const activeBtn = document.getElementById('btn-' + tabName);
+            activeBtn.classList.add('border-primary/40', 'text-primary');
+            activeBtn.classList.remove('border-white/5', 'text-on-surface-variant');
+
+            // Simulate content change with a slight fade
+            const canvas = document.getElementById('settings-canvas');
+            canvas.style.opacity = '0.5';
+            canvas.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                canvas.style.opacity = '1';
+                canvas.style.transform = 'translateY(0)';
+            }, 200);
+        }
+
+        // Initialize micro-interactions
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            el.addEventListener('blur', () => {
+                el.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>
