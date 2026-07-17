@@ -111,11 +111,9 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        /* Custom Purple Glow Background */
         .bg-glow {
             background: radial-gradient(circle at 50% 50%, rgba(124, 58, 237, 0.12) 0%, rgba(9, 9, 11, 0) 70%);
         }
-        /* Glassmorphism Effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(20px);
@@ -125,16 +123,14 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-body-md text-body-md overflow-hidden relative">
-<!-- Subtle Background Elements -->
 <div class="fixed inset-0 pointer-events-none z-0">
 <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-glow rounded-full blur-[100px] opacity-60"></div>
 <div class="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-glow rounded-full blur-[120px] opacity-40"></div>
-
 </div>
-<!-- Login Container -->
+
 <main class="flex-grow flex items-center justify-center p-6 z-10">
 <div class="glass-card w-full max-w-[440px] rounded-[20px] p-10 flex flex-col gap-8 transition-all duration-500 ease-out hover:scale-[1.01]">
-<!-- Logo & Title -->
+
 <div class="text-center space-y-2">
 <div class="flex justify-center mb-4">
 <div class="w-12 h-12 bg-primary-container rounded-xl flex items-center justify-center shadow-lg shadow-primary-container/20">
@@ -144,46 +140,80 @@
 <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">PyAudit AI</h1>
 <p class="font-body-md text-body-md text-on-surface-variant opacity-80">Secure developer environment</p>
 </div>
-<!-- Form -->
-<form class="space-y-6" onsubmit="return false;">
-<!-- Email Field -->
-<div class="space-y-2">
-<label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="email">Work Email</label>
-<div class="relative group">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors">alternate_email</span>
-</div>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary transition-all duration-200" id="email" name="email" placeholder="name@company.com" type="email"/>
-</div>
-</div>
-<!-- Password Field -->
-<div class="space-y-2">
-<div class="flex justify-between items-center ml-1">
-<label class="font-label-md text-label-md text-on-surface-variant block" for="password">Password</label>
-<a class="font-label-md text-label-md text-primary hover:text-primary-fixed-dim transition-colors" href="#">Forgot Password?</a>
-</div>
-<div class="relative group">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors">lock</span>
-</div>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-11 pr-12 text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary transition-all duration-200" id="password" name="password" placeholder="••••••••" type="password"/>
-<button class="absolute inset-y-0 right-0 pr-4 flex items-center text-outline-variant hover:text-outline transition-colors" type="button">
-<span class="material-symbols-outlined text-[20px]">visibility</span>
-</button>
-</div>
-</div>
-<!-- Primary Action -->
-<button class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-3.5 rounded-lg font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary-container/10" type="submit">
-                    Sign In
-                </button>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="space-y-2">
+            {% for category, message in messages %}
+                <div class="px-4 py-3 rounded-lg text-label-md font-label-md
+                    {% if category == 'danger' %} bg-error-container text-on-error-container
+                    {% elif category == 'success' %} bg-secondary-container text-on-secondary-container
+                    {% else %} bg-surface-container-high text-on-surface {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<form method="POST" class="space-y-6">
+    {{ form.hidden_tag() }}
+
+    <div class="space-y-2">
+        <label class="font-label-md text-label-md text-on-surface-variant block ml-1" for="email">Work Email</label>
+        <div class="relative group">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors">alternate_email</span>
+            </div>
+            {{ form.email(
+                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-11 pr-4 text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary transition-all duration-200",
+                placeholder="name@company.com"
+            ) }}
+        </div>
+        {% for error in form.email.errors %}
+            <p class="text-error text-label-md ml-1">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="space-y-2">
+        <div class="flex justify-between items-center ml-1">
+            <label class="font-label-md text-label-md text-on-surface-variant block" for="password">Password</label>
+            <a class="font-label-md text-label-md text-primary hover:text-primary-fixed-dim transition-colors" href="#">Forgot Password?</a>
+        </div>
+        <div class="relative group">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <span class="material-symbols-outlined text-outline text-[20px] group-focus-within:text-primary transition-colors">lock</span>
+            </div>
+            {{ form.password(
+                class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-11 pr-12 text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary-container/20 focus:border-primary transition-all duration-200",
+                placeholder="••••••••",
+                id="password"
+            ) }}
+            <button class="absolute inset-y-0 right-0 pr-4 flex items-center text-outline-variant hover:text-outline transition-colors" type="button" id="togglePassword">
+                <span class="material-symbols-outlined text-[20px]">visibility</span>
+            </button>
+        </div>
+        {% for error in form.password.errors %}
+            <p class="text-error text-label-md ml-1">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div class="flex items-center gap-2">
+        {{ form.remember_me(class="rounded") }}
+        {{ form.remember_me.label(class="text-sm text-on-surface") }}
+    </div>
+
+    {{ form.submit(
+        class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-3.5 rounded-lg font-semibold hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary-container/10"
+    ) }}
 </form>
-<!-- Divider -->
+
 <div class="relative flex items-center">
-<div class="flex-grow border-t border-outline-variant opacity-30"></div>
-<span class="flex-shrink mx-4 font-label-md text-label-md text-outline-variant">OR</span>
-<div class="flex-grow border-t border-outline-variant opacity-30"></div>
+    <div class="flex-grow border-t border-outline-variant opacity-30"></div>
+    <span class="flex-shrink mx-4 font-label-md text-label-md text-outline-variant">OR</span>
+    <div class="flex-grow border-t border-outline-variant opacity-30"></div>
 </div>
-<!-- Social Action -->
+
 <button class="w-full flex items-center justify-center gap-3 bg-white/5 border border-white/10 text-on-surface font-label-md text-label-md py-3.5 rounded-lg hover:bg-white/10 transition-all active:scale-[0.98]" type="button">
 <svg fill="none" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
@@ -193,14 +223,14 @@
 </svg>
                 Continue with Google
             </button>
-<!-- Footer Link -->
+
 <p class="text-center font-label-md text-label-md text-on-surface-variant">
                 Don't have an account? 
-                <a class="text-primary font-semibold hover:text-primary-fixed-dim transition-colors ml-1" href="#">Create Account</a>
+                <a class="text-primary font-semibold hover:text-primary-fixed-dim transition-colors ml-1" href="{{ url_for('auth.register') }}">Create Account</a>
 </p>
 </div>
 </main>
-<!-- Page Footer (Minimal) -->
+
 <footer class="p-8 z-10 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-outline-variant/10">
 <p class="font-label-md text-label-md text-on-surface-variant opacity-60">© 2024 PyAudit AI. High-precision Python analysis.</p>
 <div class="flex gap-6">
@@ -209,31 +239,27 @@
 <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
 </div>
 </footer>
-<!-- Interactive Logic for visual feedback -->
+
 <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('form');
-            const submitBtn = form.querySelector('button[type="submit"]');
+    document.addEventListener('DOMContentLoaded', () => {
+        const passwordInput = document.querySelector('#password');
+        const toggleBtn = document.querySelector('#togglePassword');
 
-            submitBtn.addEventListener('click', (e) => {
-                const originalText = submitBtn.innerText;
-                submitBtn.innerText = 'Authenticating...';
-                submitBtn.disabled = true;
-                
-                // Simulate loading state
-                setTimeout(() => {
-                    submitBtn.innerText = originalText;
-                    submitBtn.disabled = false;
-                }, 1500);
+        if (toggleBtn && passwordInput) {
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+                toggleBtn.querySelector('.material-symbols-outlined').innerText =
+                    isPassword ? 'visibility_off' : 'visibility';
             });
+        }
 
-            // Parallax effect on mouse move for the glass card
-            const card = document.querySelector('.glass-card');
-            document.addEventListener('mousemove', (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 100;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 100;
-                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) scale(1.01)`;
-            });
+        const card = document.querySelector('.glass-card');
+        document.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 100;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 100;
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) scale(1.01)`;
         });
-    </script>
+    });
+</script>
 </body></html>
