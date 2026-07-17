@@ -1,455 +1,294 @@
 <!DOCTYPE html>
-
-<html class="dark" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Review Results | PyAudit AI</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "tertiary": "#c0c6db",
-                        "inverse-primary": "#732ee4",
-                        "surface-container": "#221e28",
-                        "inverse-on-surface": "#332f39",
-                        "surface-bright": "#3c3742",
-                        "surface": "#15121b",
-                        "surface-tint": "#d2bbff",
-                        "primary-fixed-dim": "#d2bbff",
-                        "surface-container-high": "#2c2833",
-                        "on-surface": "#e8dfee",
-                        "background": "#15121b",
-                        "surface-dim": "#15121b",
-                        "on-tertiary-fixed-variant": "#404758",
-                        "inverse-surface": "#e8dfee",
-                        "on-primary": "#3f008e",
-                        "surface-container-lowest": "#100d16",
-                        "on-error": "#690005",
-                        "tertiary-container": "#5f6678",
-                        "primary-container": "#7c3aed",
-                        "outline": "#958da1",
-                        "on-tertiary": "#293040",
-                        "on-background": "#e8dfee",
-                        "error-container": "#93000a",
-                        "tertiary-fixed-dim": "#c0c6db",
-                        "secondary-fixed": "#d8e2ff",
-                        "secondary-container": "#0566d9",
-                        "primary": "#d2bbff",
-                        "surface-container-low": "#1d1a24",
-                        "on-error-container": "#ffdad6",
-                        "on-tertiary-fixed": "#141b2b",
-                        "secondary": "#adc6ff",
-                        "on-secondary-container": "#e6ecff",
-                        "error": "#ffb4ab",
-                        "surface-container-highest": "#37333e",
-                        "primary-fixed": "#eaddff",
-                        "on-secondary": "#002e6a",
-                        "on-primary-fixed": "#25005a",
-                        "secondary-fixed-dim": "#adc6ff",
-                        "on-secondary-fixed": "#001a42",
-                        "surface-variant": "#37333e",
-                        "outline-variant": "#4a4455",
-                        "tertiary-fixed": "#dce2f7",
-                        "on-tertiary-container": "#dfe5fa",
-                        "on-primary-container": "#ede0ff",
-                        "on-surface-variant": "#ccc3d8",
-                        "on-secondary-fixed-variant": "#004395",
-                        "on-primary-fixed-variant": "#5a00c6"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "container-max": "1440px",
-                        "xs": "4px",
-                        "xl": "32px",
-                        "md": "16px",
-                        "card-padding": "24px",
-                        "sm": "8px",
-                        "lg": "24px",
-                        "base": "8px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "code-sm": ["JetBrains Mono"],
-                        "body-lg": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "display-lg": ["Inter"],
-                        "body-md": ["Inter"],
-                        "label-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
-                        "code-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
-                    }
-                },
-            },
-        }
-    </script>
+<html lang="en" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analysis Result — PyAudit AI</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 <style>
-        body {
-            background-color: #09090B;
-            color: #e8dfee;
-            -webkit-font-smoothing: antialiased;
-        }
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .ai-card-accent {
-            border-left: 2px solid #7C3AED;
-        }
-        .circular-progress {
-            background: conic-gradient(#7C3AED 88%, rgba(255, 255, 255, 0.05) 0);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(124, 58, 237, 0.3);
-            border-radius: 10px;
-        }
-    </style>
+    :root {
+        --bg-body: #0d0b12;
+        --bg-surface: #16131d;
+        --bg-surface-2: #1e1a28;
+        --border-subtle: rgba(255, 255, 255, 0.08);
+        --accent: #7c3aed;
+        --accent-2: #a78bfa;
+        --text-muted: #a79fb5;
+        --success: #34d399;
+        --danger: #f87171;
+        --warning: #fbbf24;
+    }
+
+    body {
+        background: radial-gradient(circle at top left, #1c1526 0%, #0d0b12 55%);
+        color: #e8dfee;
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+    }
+
+    .navbar-brand span {
+        background: linear-gradient(135deg, #a78bfa, #60a5fa);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 1rem;
+    }
+
+    .filename-pill {
+        background: rgba(124, 58, 237, 0.12);
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        color: var(--accent-2);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85rem;
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .stat-chip {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-subtle);
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        flex: 1;
+        min-width: 160px;
+    }
+
+    .stat-chip .label {
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+
+    .stat-chip .value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-top: 0.15rem;
+    }
+
+    .accordion-item {
+        background: var(--bg-surface-2);
+        border: 1px solid var(--border-subtle);
+        border-radius: 0.75rem !important;
+        overflow: hidden;
+        margin-bottom: 1rem;
+    }
+
+    .accordion-button {
+        background: transparent;
+        color: #e8dfee;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: none !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background: rgba(124, 58, 237, 0.1);
+        color: var(--accent-2);
+    }
+
+    .accordion-button::after {
+        filter: invert(1) grayscale(1) brightness(1.6);
+    }
+
+    .accordion-body {
+        background: #100d16;
+        border-top: 1px solid var(--border-subtle);
+        padding: 0;
+    }
+
+    .report-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+        flex-shrink: 0;
+        font-size: 1.1rem;
+    }
+
+    .icon-pylint { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+    .icon-bandit { background: rgba(248, 113, 113, 0.15); color: var(--danger); }
+    .icon-radon  { background: rgba(251, 191, 36, 0.15); color: var(--warning); }
+
+    pre.report-output {
+        background: #0a0810;
+        color: #d8d2e0;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.82rem;
+        line-height: 1.55;
+        padding: 1.25rem;
+        margin: 0;
+        max-height: 420px;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    pre.report-output::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    pre.report-output::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #7c3aed, #4f46e5);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        transition: filter 0.2s ease, transform 0.15s ease;
+    }
+    .btn-gradient:hover { filter: brightness(1.12); color: #fff; }
+    .btn-gradient:active { transform: scale(0.97); }
+
+    .btn-outline-soft {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-subtle);
+        color: #e8dfee;
+        font-weight: 600;
+    }
+    .btn-outline-soft:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+    }
+
+    @media (max-width: 576px) {
+        .stat-chip { min-width: 100%; }
+    }
+</style>
 </head>
-<body class="flex min-h-screen">
-<!-- Sidebar Navigation Shell -->
-<aside class="h-screen w-[280px] fixed left-0 top-0 pt-[64px] bg-surface-container-low border-r border-white/5 flex flex-col hidden md:flex z-40">
-<div class="px-lg mb-xl">
-<div class="flex items-center space-x-3 mb-md">
-<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-on-primary">folder_open</span>
-</div>
-<div>
-<h3 class="font-label-md text-label-md text-on-surface font-bold">Project Alpha</h3>
-<p class="text-[12px] text-on-surface-variant">Python 3.11</p>
-</div>
-</div>
-<button class="w-full py-2 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md transition-transform active:scale-95">
-                Run New Audit
-            </button>
-</div>
-<nav class="flex flex-col space-y-1 px-2">
-<a class="text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface transition-all duration-300 flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-label-md text-label-md">Overview</span>
-</a>
-<a class="text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface transition-all duration-300 flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">folder_open</span>
-<span class="font-label-md text-label-md">All Projects</span>
-</a>
-<a class="bg-primary-container/20 text-primary border-l-4 border-primary px-4 py-3 transition-all duration-300 flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">psychology</span>
-<span class="font-label-md text-label-md">AI Insights</span>
-</a>
-<a class="text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface transition-all duration-300 flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">security</span>
-<span class="font-label-md text-label-md">Security Scans</span>
-</a>
-<a class="text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface transition-all duration-300 flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">group</span>
-<span class="font-label-md text-label-md">Team Access</span>
-</a>
+<body>
+
+<nav class="navbar navbar-expand-lg border-bottom" style="border-color: var(--border-subtle) !important; background: rgba(13,11,18,0.8); backdrop-filter: blur(12px);">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('main.dashboard') }}">
+            <i class="bi bi-shield-check" style="color: var(--accent-2);"></i>
+            <span>PyAudit AI</span>
+        </a>
+    </div>
 </nav>
-<div class="mt-auto pb-lg px-2 border-t border-white/5 pt-md">
-<a class="text-on-surface-variant px-4 py-2 hover:text-on-surface transition-colors flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">description</span>
-<span class="font-label-md text-label-md">Documentation</span>
-</a>
-<a class="text-on-surface-variant px-4 py-2 hover:text-on-surface transition-colors flex items-center gap-3" href="#">
-<span class="material-symbols-outlined">help</span>
-<span class="font-label-md text-label-md">Support</span>
-</a>
-</div>
-</aside>
-<!-- Top App Bar -->
-<header class="fixed top-0 w-full z-50 bg-surface-container/80 backdrop-blur-[18px] border-b border-white/10 shadow-sm">
-<div class="flex justify-between items-center px-lg py-md max-w-container-max mx-auto h-[64px]">
-<div class="flex items-center gap-8">
-<span class="font-headline-md text-headline-md font-bold text-primary">PyAudit AI</span>
-<nav class="hidden lg:flex items-center gap-6">
-<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Dashboard</a>
-<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">New Review</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">History</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Settings</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<button class="bg-primary px-4 py-1.5 rounded-full text-on-primary font-label-md text-label-md font-bold hover:opacity-90 transition-opacity">Upgrade Pro</button>
-<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">notifications</span></button>
-<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">account_circle</span></button>
-</div>
-</div>
-</header>
-<!-- Main Content -->
-<main class="flex-1 md:ml-[280px] pt-[84px] px-md md:px-lg pb-xl max-w-container-max mx-auto overflow-x-hidden">
-<!-- Header & Health Score Section -->
-<section class="grid grid-cols-1 lg:grid-cols-12 gap-lg mb-lg">
-<div class="lg:col-span-8">
-<div class="flex items-center gap-2 text-tertiary mb-2">
-<span class="material-symbols-outlined text-sm">terminal</span>
-<span class="font-label-md text-label-md">Review #AUD-7729-ALPHA</span>
-</div>
-<h1 class="font-headline-lg text-headline-lg mb-4">Code Review Results</h1>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
-                    Our AI model has analyzed 12,402 lines of Python across 42 modules. Security posture remains high, with minor performance bottlenecks detected in asynchronous worker patterns.
-                </p>
-<div class="flex gap-4 mt-6">
-<span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full flex items-center gap-2 text-sm">
-<span class="w-2 h-2 rounded-full bg-green-500"></span>
-                        Status: Healthy
-                    </span>
-<span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full flex items-center gap-2 text-sm">
-<span class="material-symbols-outlined text-sm">timer</span>
-                        Scan Time: 12.4s
-                    </span>
-</div>
-</div>
-<!-- Health Score Gauge -->
-<div class="lg:col-span-4 flex items-center justify-center lg:justify-end">
-<div class="glass p-lg rounded-xl flex flex-col items-center gap-2 w-full lg:w-auto min-w-[240px]">
-<div class="relative w-32 h-32 flex items-center justify-center">
-<div class="circular-progress w-full h-full rounded-full flex items-center justify-center relative">
-<div class="bg-[#09090B] w-28 h-28 rounded-full flex items-center justify-center">
-<span class="font-display-lg text-display-lg text-primary">88</span>
-</div>
-</div>
-</div>
-<span class="font-label-md text-label-md text-tertiary uppercase tracking-widest mt-2">Health Score</span>
-</div>
-</div>
-</section>
-<!-- Bento Grid Core Metrics -->
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md mb-lg">
-<!-- Bug Detection -->
-<div class="glass p-card-padding rounded-xl flex flex-col justify-between group cursor-default">
-<div class="flex justify-between items-start mb-md">
-<div class="bg-red-500/10 p-2 rounded-lg text-red-400">
-<span class="material-symbols-outlined">bug_report</span>
-</div>
-<span class="text-red-400 font-bold">+2 New</span>
-</div>
-<div>
-<h4 class="font-label-md text-label-md text-on-surface-variant">Bug Detection</h4>
-<div class="flex items-end gap-2 mt-1">
-<span class="text-3xl font-bold">12</span>
-<span class="text-tertiary text-sm mb-1">Total Issues</span>
-</div>
-<div class="mt-4 flex gap-4 text-xs font-medium">
-<span class="text-red-400">3 Critical</span>
-<span class="text-on-surface-variant">9 Minor</span>
-</div>
-</div>
-</div>
-<!-- Security Analysis -->
-<div class="glass p-card-padding rounded-xl flex flex-col justify-between">
-<div class="flex justify-between items-start mb-md">
-<div class="bg-blue-500/10 p-2 rounded-lg text-blue-400">
-<span class="material-symbols-outlined">security</span>
-</div>
-<span class="text-green-400 text-xs px-2 py-0.5 bg-green-400/10 rounded">OWASP Compliant</span>
-</div>
-<div>
-<h4 class="font-label-md text-label-md text-on-surface-variant">Security Analysis</h4>
-<div class="flex items-end gap-2 mt-1">
-<span class="text-3xl font-bold">94%</span>
-<span class="text-tertiary text-sm mb-1">Grade A</span>
-</div>
-<div class="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-<div class="bg-blue-400 h-full w-[94%]"></div>
-</div>
-</div>
-</div>
-<!-- Performance Suggestions -->
-<div class="glass p-card-padding rounded-xl flex flex-col justify-between">
-<div class="flex justify-between items-start mb-md">
-<div class="bg-amber-500/10 p-2 rounded-lg text-amber-400">
-<span class="material-symbols-outlined">speed</span>
-</div>
-<span class="text-amber-400 text-xs">8 Optimizations</span>
-</div>
-<div>
-<h4 class="font-label-md text-label-md text-on-surface-variant">Performance</h4>
-<div class="flex items-end gap-2 mt-1">
-<span class="text-3xl font-bold">Low</span>
-<span class="text-tertiary text-sm mb-1">Latency Risk</span>
-</div>
-<p class="mt-4 text-xs text-on-surface-variant italic">N+1 queries detected in db_helper.py</p>
-</div>
-</div>
-<!-- Maintainability -->
-<div class="glass p-card-padding rounded-xl flex flex-col justify-between">
-<div class="flex justify-between items-start mb-md">
-<div class="bg-purple-500/10 p-2 rounded-lg text-purple-400">
-<span class="material-symbols-outlined">auto_fix_high</span>
-</div>
-</div>
-<div>
-<h4 class="font-label-md text-label-md text-on-surface-variant">Maintainability</h4>
-<div class="flex items-end gap-2 mt-1">
-<span class="text-3xl font-bold">High</span>
-<span class="text-tertiary text-sm mb-1">7.2/10 Index</span>
-</div>
-<div class="mt-4 flex -space-x-2">
-<div class="w-6 h-6 rounded-full border border-surface bg-surface-container flex items-center justify-center text-[10px]">A</div>
-<div class="w-6 h-6 rounded-full border border-surface bg-primary-container flex items-center justify-center text-[10px]">B</div>
-<div class="w-6 h-6 rounded-full border border-surface bg-surface-container-high flex items-center justify-center text-[10px]">+3</div>
-</div>
-</div>
-</div>
-</section>
-<!-- AI Recommendations & Diff Section -->
-<section class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
-<!-- Recommendations List -->
-<div class="lg:col-span-4 flex flex-col gap-md">
-<div class="flex items-center justify-between">
-<h2 class="font-headline-md text-headline-md">AI Insights</h2>
-<span class="text-primary text-sm font-medium">Clear All</span>
-</div>
-<div class="ai-card-accent glass p-md rounded-lg hover:bg-white/[0.08] cursor-pointer transition-colors">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-primary text-sm">psychology</span>
-<span class="text-xs font-bold uppercase text-primary">Critical Optimization</span>
-</div>
-<h5 class="font-label-md text-label-md font-semibold mb-1">Inefficient List Comprehension</h5>
-<p class="text-sm text-on-surface-variant">Line 142 in `data_fetcher.py`. Memory overhead detected during large dataset processing.</p>
-</div>
-<div class="glass p-md rounded-lg border-l-2 border-amber-400/50 opacity-80 hover:opacity-100 transition-all cursor-pointer">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-amber-400 text-sm">warning</span>
-<span class="text-xs font-bold uppercase text-amber-400">Security Note</span>
-</div>
-<h5 class="font-label-md text-label-md font-semibold mb-1">Hardcoded Secret Key</h5>
-<p class="text-sm text-on-surface-variant">Detected potential env variable leak in `config.py`. Recommend using OS secret storage.</p>
-</div>
-<div class="glass p-md rounded-lg border-l-2 border-blue-400/50 opacity-80 hover:opacity-100 transition-all cursor-pointer">
-<div class="flex items-center gap-2 mb-2">
-<span class="material-symbols-outlined text-blue-400 text-sm">info</span>
-<span class="text-xs font-bold uppercase text-blue-400">Refactor Goal</span>
-</div>
-<h5 class="font-label-md text-label-md font-semibold mb-1">Simplify Boolean Logic</h5>
-<p class="text-sm text-on-surface-variant">Nested if-statements in `utils.py` can be reduced for better readability.</p>
-</div>
-</div>
-<!-- Code Diff Block -->
-<div class="lg:col-span-8 flex flex-col gap-md">
-<div class="glass rounded-xl overflow-hidden flex flex-col h-full border border-white/10 shadow-2xl">
-<div class="bg-surface-container-high px-lg py-3 flex items-center justify-between">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-on-surface-variant">code</span>
-<span class="font-code-sm text-code-sm">src/core/data_fetcher.py</span>
-</div>
-<div class="flex gap-2">
-<button class="text-xs bg-white/5 px-3 py-1 rounded hover:bg-white/10">Revert</button>
-<button class="text-xs bg-primary-container px-3 py-1 rounded hover:opacity-90">Apply Refactor</button>
-</div>
-</div>
-<div class="p-lg overflow-x-auto font-code-sm text-code-sm bg-surface-container-lowest flex-1 custom-scrollbar">
-<pre class="leading-relaxed"><span class="text-on-surface-variant opacity-50">138 | </span>def process_results(raw_data):
-<span class="text-on-surface-variant opacity-50">139 | </span>    processed = []
-<span class="text-on-surface-variant opacity-50">140 | </span>    for item in raw_data:
-<span class="bg-red-500/10 block w-full -mx-lg px-lg"><span class="text-red-400 opacity-50">-141| </span>        if item.status == 'active':</span>
-<span class="bg-red-500/10 block w-full -mx-lg px-lg"><span class="text-red-400 opacity-50">-142| </span>            processed.append(item.value * 2)</span>
-<span class="bg-green-500/10 block w-full -mx-lg px-lg"><span class="text-green-400 opacity-50">+141| </span>        # Optimized with direct generator expression</span>
-<span class="bg-green-500/10 block w-full -mx-lg px-lg"><span class="text-green-400 opacity-50">+142| </span>        return (item.value * 2 for item in raw_data if item.status == 'active')</span>
-<span class="text-on-surface-variant opacity-50">143 | </span>    return processed</pre>
-</div>
-<div class="bg-surface-container-low p-md border-t border-white/5">
-<p class="text-xs text-on-surface-variant">
-<strong>AI Reasoning:</strong> Changing the list instantiation to a generator expression reduces memory consumption from O(n) to O(1) for large streaming datasets. This will prevent potential MemoryError during peak loads.
-                        </p>
-</div>
-</div>
-</div>
-</section>
-<!-- Floating Atmospheric Shader Element (Simulated via script/canvas) -->
-<div class="fixed bottom-0 right-0 w-full h-1/2 pointer-events-none opacity-20 overflow-hidden z-[-1]">
-<canvas class="w-full h-full" id="ambient-glow"></canvas>
-</div>
+
+<main class="container py-5">
+
+    <!-- Header: Filename + Overall Analysis -->
+    <div class="glass-card p-4 p-md-5 mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div>
+                <p class="text-uppercase small mb-2" style="color: var(--text-muted); letter-spacing: 0.08em;">Analysis Report</p>
+                <span class="filename-pill">
+                    <i class="bi bi-file-earmark-code"></i>
+                    {{ filename }}
+                </span>
+            </div>
+            <div>
+                <span class="badge rounded-pill px-3 py-2" style="background: rgba(52, 211, 153, 0.12); color: var(--success); border: 1px solid rgba(52, 211, 153, 0.3); font-size: 0.85rem;">
+                    <i class="bi bi-check-circle me-1"></i> Scan Complete
+                </span>
+            </div>
+        </div>
+
+        <h5 class="mb-3" style="font-weight: 600;">Overall Analysis</h5>
+        <p style="color: var(--text-muted); max-width: 65ch;">
+            {{ overall_analysis if overall_analysis else "PyAudit AI has completed a full static review of this file, covering code quality, security posture, and structural complexity. Expand each section below for the detailed report." }}
+        </p>
+
+        <div class="d-flex flex-wrap gap-3 mt-4">
+            <div class="stat-chip">
+                <div class="label">Pylint</div>
+                <div class="value" style="color: #60a5fa;">{{ pylint_score if pylint_score else "—" }}</div>
+            </div>
+            <div class="stat-chip">
+                <div class="label">Bandit Issues</div>
+                <div class="value" style="color: var(--danger);">{{ bandit_issue_count if bandit_issue_count is defined else "—" }}</div>
+            </div>
+            <div class="stat-chip">
+                <div class="label">Avg Complexity</div>
+                <div class="value" style="color: var(--warning);">{{ radon_avg_complexity if radon_avg_complexity else "—" }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accordion Reports -->
+    <div class="accordion" id="reportAccordion">
+
+        <!-- Pylint -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePylint" aria-expanded="true" aria-controls="collapsePylint">
+                    <span class="report-icon icon-pylint"><i class="bi bi-code-slash"></i></span>
+                    Pylint Report
+                </button>
+            </h2>
+            <div id="collapsePylint" class="accordion-collapse collapse show" data-bs-parent="#reportAccordion">
+                <div class="accordion-body">
+                    <pre class="report-output">{{ analysis.get("pylint", "No Pylint report available.") }}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bandit -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBandit" aria-expanded="false" aria-controls="collapseBandit">
+                    <span class="report-icon icon-bandit"><i class="bi bi-shield-exclamation"></i></span>
+                    Bandit Security Report
+                </button>
+            </h2>
+            <div id="collapseBandit" class="accordion-collapse collapse" data-bs-parent="#reportAccordion">
+                <div class="accordion-body">
+                    <pre class="report-output">{{ analysis.get("bandit", "No Bandit report available.") }}</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radon -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRadon" aria-expanded="false" aria-controls="collapseRadon">
+                    <span class="report-icon icon-radon"><i class="bi bi-diagram-3"></i></span>
+                    Radon Complexity Report
+                </button>
+            </h2>
+            <div id="collapseRadon" class="accordion-collapse collapse" data-bs-parent="#reportAccordion">
+                <div class="accordion-body">
+                    <pre class="report-output">{{ analysis.get("radon", "No Radon report available.") }}</pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-5">
+        <a href="{{ url_for('review.review') }}" class="btn btn-gradient px-4 py-2 rounded-3">
+            <i class="bi bi-arrow-repeat me-1"></i> Analyze Another File
+        </a>
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-outline-soft px-4 py-2 rounded-3">
+            <i class="bi bi-speedometer2 me-1"></i> Back to Dashboard
+        </a>
+    </div>
+
 </main>
-<!-- Footer Shell -->
-<footer class="w-full py-xl mt-auto border-t border-white/5 bg-surface-container-lowest md:ml-[280px]">
-<div class="flex flex-col md:flex-row justify-between items-center px-lg max-w-container-max mx-auto gap-4">
-<span class="font-label-md text-label-md text-tertiary">© 2024 PyAudit AI. Precise Code Intelligence.</span>
-<div class="flex gap-6">
-<a class="text-tertiary hover:text-primary-fixed-dim transition-colors font-label-md text-label-md" href="#">Privacy Policy</a>
-<a class="text-tertiary hover:text-primary-fixed-dim transition-colors font-label-md text-label-md" href="#">Terms of Service</a>
-<a class="text-tertiary hover:text-primary-fixed-dim transition-colors font-label-md text-label-md" href="#">API Docs</a>
-<a class="text-tertiary hover:text-primary-fixed-dim transition-colors font-label-md text-label-md" href="#">GitHub</a>
-</div>
-</div>
-</footer>
-<script>
-        // Simple ambient glow animation for the "handcrafted" light-as-material feel
-        const canvas = document.getElementById('ambient-glow');
-        const ctx = canvas.getContext('2d');
-        let width, height;
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * width;
-                this.y = height + Math.random() * 100;
-                this.size = Math.random() * 200 + 100;
-                this.speed = Math.random() * 0.5 + 0.1;
-                this.opacity = Math.random() * 0.1;
-            }
-            update() {
-                this.y -= this.speed;
-                if (this.y < -this.size) this.reset();
-            }
-            draw() {
-                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-                gradient.addColorStop(0, `rgba(124, 58, 237, ${this.opacity})`);
-                gradient.addColorStop(1, 'transparent');
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        const particles = Array.from({ length: 5 }, () => new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    </script>
-</body></html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

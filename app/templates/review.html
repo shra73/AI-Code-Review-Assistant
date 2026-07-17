@@ -141,10 +141,10 @@
 <div class="flex items-center gap-xl">
 <span class="font-headline-md text-headline-md font-bold text-primary">PyAudit AI</span>
 <nav class="hidden md:flex gap-lg">
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Dashboard</a>
-<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">New Review</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">History</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Settings</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="{{ url_for('main.dashboard') }}">Dashboard</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="{{ url_for('review.review') }}">New Review</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="{{ url_for('main.history') }}">History</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="{{ url_for('main.settings') }}">Settings</a>
 </nav>
 </div>
 <div class="flex items-center gap-md">
@@ -169,7 +169,7 @@
 </div>
 </div>
 <nav class="flex flex-col space-y-1 mt-4">
-<a class="text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface flex items-center gap-md transition-all" href="#">
+<a class="text-on-surface-variant px-4 py-3 hover:bg-white/5 hover:text-on-surface flex items-center gap-md transition-all" href="{{ url_for('main.dashboard') }}">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="font-label-md">Overview</span>
 </a>
@@ -214,6 +214,24 @@
 <h1 class="font-headline-lg text-headline-lg text-on-surface">New Code Review</h1>
 <p class="font-body-md text-body-md text-on-surface-variant mt-sm">Upload your Python source files or paste code directly for a deep AI-driven security and performance audit.</p>
 </header>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="space-y-2">
+            {% for category, message in messages %}
+                <div class="px-4 py-3 rounded-lg text-label-md font-label-md
+                    {% if category == 'danger' %} bg-error-container text-on-error-container
+                    {% elif category == 'success' %} bg-secondary-container text-on-secondary-container
+                    {% elif category == 'warning' %} bg-error-container/60 text-on-error-container
+                    {% else %} bg-surface-container-high text-on-surface {% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
 <!-- Section 1: Upload Card -->
 <section class="lg:col-span-5 space-y-md">
@@ -224,33 +242,37 @@
 </div>
 <div>
 <h2 class="font-headline-md text-headline-md text-on-surface text-[18px]">Upload Source</h2>
-<p class="text-on-surface-variant text-label-md">Supports .py, .zip, and .tar.gz</p>
+<p class="text-on-surface-variant text-label-md">Supports .py, .pyw, and .zip</p>
 </div>
 </div>
-<div class="flex-1 border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-xl hover:border-primary/50 transition-colors cursor-pointer group relative overflow-hidden" id="drop-zone">
 
-<span class="material-symbols-outlined text-[48px] text-on-surface-variant group-hover:text-primary transition-colors mb-md">cloud_upload</span>
-<p class="font-label-md text-on-surface text-center px-lg">Drag and drop your files here or click to browse</p>
-<p class="text-[12px] text-on-surface-variant mt-xs">Maximum file size: 50MB</p>
-<!-- Progress Bar Placeholder (Hidden initially) -->
-<div class="hidden w-full max-w-[200px] mt-lg" id="upload-progress">
-<div class="flex justify-between items-center mb-xs">
-<span class="text-[11px] text-on-surface-variant">Uploading...</span>
-<span class="text-[11px] text-primary">45%</span>
-</div>
-<div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[45%] rounded-full shadow-[0_0_8px_rgba(124,58,237,0.5)]"></div>
-</div>
-</div>
-</div>
-<div class="mt-lg p-md bg-white/5 rounded-lg">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-sm">
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">info</span>
-<span class="text-[12px] text-on-surface-variant">Your files are encrypted end-to-end and deleted after analysis.</span>
-</div>
-</div>
-</div>
+<form method="POST" action="{{ url_for('review.upload_file') }}" enctype="multipart/form-data" class="flex-1 flex flex-col">
+    <div class="upload-area flex-1 flex flex-col">
+        <div class="flex-1 border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center p-xl hover:border-primary/50 transition-colors cursor-pointer group relative overflow-hidden" id="drop-zone">
+
+            <span class="material-symbols-outlined text-[48px] text-on-surface-variant group-hover:text-primary transition-colors mb-md">cloud_upload</span>
+            <p class="font-label-md text-on-surface text-center px-lg" id="drop-zone-text">Drag and drop your files here or click to browse</p>
+            <p class="text-[12px] text-on-surface-variant mt-xs">Allowed: .py, .pyw, .zip</p>
+
+            <input type="file" name="code_file" accept=".py,.pyw,.zip" id="code_file" class="absolute inset-0 opacity-0 cursor-pointer" />
+        </div>
+
+        <div class="mt-lg p-md bg-white/5 rounded-lg">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[20px]">info</span>
+                    <span class="text-[12px] text-on-surface-variant">Your files are encrypted end-to-end and deleted after analysis.</span>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="w-full mt-lg flex items-center justify-center gap-sm bg-primary text-on-primary px-xl py-md rounded-xl font-bold font-label-md hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined">auto_awesome</span>
+            Analyze
+        </button>
+    </div>
+</form>
+
 </div>
 </section>
 <!-- Section 2: Paste Code Card -->
@@ -268,33 +290,37 @@
 </div>
 <div class="flex items-center gap-sm">
 <span class="px-md py-xs rounded-full bg-white/5 text-[11px] font-mono text-tertiary uppercase tracking-wider">Python</span>
-<button class="p-xs hover:bg-white/5 rounded-lg text-on-surface-variant" title="Copy from Clipboard">
+<button class="p-xs hover:bg-white/5 rounded-lg text-on-surface-variant" title="Copy from Clipboard" type="button">
 <span class="material-symbols-outlined text-[20px]">content_paste</span>
 </button>
 </div>
 </div>
-<div class="flex-1 relative flex flex-col min-h-[400px]">
-<textarea class="flex-1 w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-lg font-code-sm text-code-sm text-primary-fixed focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 custom-scrollbar resize-none placeholder:text-on-surface-variant/30" id="code-editor" placeholder="# Paste your Python code here...
+
+<form method="POST" action="{{ url_for('review.paste_code') }}" class="flex-1 flex flex-col">
+    <div class="flex-1 relative flex flex-col min-h-[400px]">
+        <textarea name="code" class="flex-1 w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-lg font-code-sm text-code-sm text-primary-fixed focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 custom-scrollbar resize-none placeholder:text-on-surface-variant/30" id="code-editor" placeholder="# Paste your Python code here...
 def analyze_performance(data):
     # Logic goes here
     pass"></textarea>
-<div class="absolute bottom-4 right-4 flex items-center gap-md">
-<div class="flex flex-col items-end">
-<span class="text-[11px] text-on-surface-variant uppercase tracking-widest font-semibold">Character Count</span>
-<span class="text-label-md text-tertiary" id="char-counter">0 / 50,000</span>
-</div>
-</div>
-</div>
-<div class="mt-lg flex items-center justify-between gap-lg">
-<div class="flex items-center gap-sm text-on-surface-variant">
-<input class="w-4 h-4 rounded bg-surface-container-highest border-outline-variant text-primary focus:ring-primary/50" id="deep-scan" type="checkbox"/>
-<label class="text-label-md cursor-pointer select-none" for="deep-scan">Enable Deep Trace Analysis</label>
-</div>
-<button class="flex items-center gap-sm bg-primary text-on-primary px-xl py-md rounded-xl font-bold font-label-md hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20">
-<span class="material-symbols-outlined">auto_awesome</span>
-                                    Analyze Code
-                                </button>
-</div>
+        <div class="absolute bottom-4 right-4 flex items-center gap-md">
+            <div class="flex flex-col items-end">
+                <span class="text-[11px] text-on-surface-variant uppercase tracking-widest font-semibold">Character Count</span>
+                <span class="text-label-md text-tertiary" id="char-counter">0 / 50,000</span>
+            </div>
+        </div>
+    </div>
+    <div class="mt-lg flex items-center justify-between gap-lg">
+        <div class="flex items-center gap-sm text-on-surface-variant">
+            <input class="w-4 h-4 rounded bg-surface-container-highest border-outline-variant text-primary focus:ring-primary/50" id="deep-scan" type="checkbox"/>
+            <label class="text-label-md cursor-pointer select-none" for="deep-scan">Enable Deep Trace Analysis</label>
+        </div>
+        <button type="submit" class="flex items-center gap-sm bg-primary text-on-primary px-xl py-md rounded-xl font-bold font-label-md hover:brightness-110 transition-all active:scale-95 shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined">auto_awesome</span>
+            Analyze Code
+        </button>
+    </div>
+</form>
+
 </div>
 </section>
 </div>
@@ -342,7 +368,8 @@ def analyze_performance(data):
         const editor = document.getElementById('code-editor');
         const counter = document.getElementById('char-counter');
         const dropZone = document.getElementById('drop-zone');
-        const uploadProgress = document.getElementById('upload-progress');
+        const fileInput = document.getElementById('code_file');
+        const dropZoneText = document.getElementById('drop-zone-text');
 
         editor.addEventListener('input', (e) => {
             const count = e.target.value.length;
@@ -354,9 +381,11 @@ def analyze_performance(data):
             }
         });
 
-        dropZone.addEventListener('click', () => {
-            // Simulated upload behavior
-            uploadProgress.classList.toggle('hidden');
+        // Show selected filename
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                dropZoneText.textContent = fileInput.files[0].name;
+            }
         });
 
         // Prevent default drag behaviors
@@ -379,6 +408,15 @@ def analyze_performance(data):
             dropZone.addEventListener(eventName, () => {
                 dropZone.classList.remove('border-primary', 'bg-primary/5');
             }, false);
+        });
+
+        // Handle actual dropped files (assign to the real file input)
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            if (dt.files.length > 0) {
+                fileInput.files = dt.files;
+                dropZoneText.textContent = dt.files[0].name;
+            }
         });
     </script>
 </body></html>
